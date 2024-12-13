@@ -1,4 +1,3 @@
-// Template mask service for app security used for masking strings, especially for email, username, password, etc.
 const maskedAttributes = ['auth_method_token', 'user_token', 'refresh_token', 'client_secret'];
 const maskObject = (body: any): any => {
   const maskedBody = { ...body };
