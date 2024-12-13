@@ -1,5 +1,5 @@
 import { Counter, Registry, collectDefaultMetrics } from 'prom-client';
-import { SVC_TAG, NODE_ENV } from '@config';
+import { SVC_TAG, NODE_ENV } from '@config/index';
 
 // Create a new registry
 const metricsRegister = new Registry();

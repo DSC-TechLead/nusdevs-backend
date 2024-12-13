@@ -6,6 +6,7 @@
       "@api/*": ["src/api/*"],
       "@config/*": ["src/config/*"],
       "@controllers/*": ["src/controllers/*"],
+      "@exceptions/*": ["src/exceptions/*"],
       "@interfaces/*": ["src/interfaces/*"],
       "@middlewares/*": ["src/middlewares/*"],
       "@models/*": ["src/models/*"],
