@@ -1,11 +1,11 @@
 {
   "name": "spice_rack_backend",
   "version": "1.0.0",
-  "main": "src/app.ts.js",
+  "main": "src/server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/app.ts",
-    "dev": "nodemon src/app.ts",
+    "start": "node src/server.ts",
+    "dev": "nodemon src/server.ts",
     "prepare": "husky"
   },
   "keywords": [],
