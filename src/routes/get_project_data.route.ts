@@ -4,7 +4,6 @@ import { Routes } from '@interfaces/routes.interface';
 
 // Internal route
 //   - Not exposed by gateway
-//   - Controller has api key validator
 class GetProjectDataRoute implements Routes {
   public path = '/project/:id/data';
   public router = Router();
