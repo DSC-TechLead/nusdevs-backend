@@ -5,7 +5,7 @@ import {
   BatchExecuteStatementCommand,
   ExecuteStatementCommandInput,
 } from "@aws-sdk/client-rds-data";
-import { DATABASE_ARN, SECRET_ARN, DATABASE_NAME } from "@config";
+import { DATABASE_ARN, SECRET_ARN, DATABASE_NAME } from "@config/index";
 
 const rdsClient = new RDSDataClient({ region: process.env.AWS_REGION });
 

@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync } from 'fs';
 import winston from 'winston';
 import MaskData from 'maskdata';
-import { LOG_DIR, NODE_ENV } from '@config';
+import { LOG_DIR, NODE_ENV } from '@config/index';
 
 const logDir = `./${LOG_DIR}`;
 
