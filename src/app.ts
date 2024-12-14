@@ -1,6 +1,6 @@
 import cors from 'cors';
 import express, { Request, Response, NextFunction } from 'express';
-import { NODE_ENV, PORT, ORIGIN, SENTRY_DSN, SVC_NAME, CREDENTIALS, RELEASE_VERSION, DATABASE_ARN, SECRET_ARN, DATABASE_NAME } from '@config';
+import { NODE_ENV, PORT, ORIGIN, SENTRY_DSN, SVC_NAME, CREDENTIALS, RELEASE_VERSION, DATABASE_ARN, SECRET_ARN, DATABASE_NAME } from '@config/index';
 import { Routes } from '@interfaces/routes.interface';
 import { logger } from '@utils/logger';
 import swaggerJSDoc from 'swagger-jsdoc';
