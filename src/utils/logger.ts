@@ -1,5 +1,5 @@
 import { existsSync, mkdirSync } from 'fs';
-import winston from 'winston';
+import winston, { LoggerOptions } from 'winston';
 import MaskData from 'maskdata';
 import { LOG_DIR, NODE_ENV } from '@config/index';
 
@@ -12,7 +12,12 @@ if (!existsSync(logDir)) {
 // TODO: edit templated code when users have been implemented
 const jsonMaskConfig = {
   passwordFields: ['password', 'body.password'],
-  phoneFields: ['phone_number', 'body.phone_number', 'body.accounts[*].phone_number', 'query.phone_number'],
+  phoneFields: [
+    'phone_number',
+    'body.phone_number',
+    'body.accounts[*].phone_number',
+    'query.phone_number',
+  ],
   stringMaskOptions: {
     maskWith: '*',
     maskOnlyFirstOccurance: false,
@@ -35,7 +40,7 @@ const jsonMaskConfig = {
   ],
 };
 
-const piiFormatter = winston.format(info => {
+const piiFormatter = winston.format((info) => {
   const maskedInfo = MaskData.maskJSON2(info, jsonMaskConfig);
 
   return { ...info, ...maskedInfo };
@@ -60,14 +65,18 @@ if (NODE_ENV === 'local-dev') {
  * Log Level
  * error: 0, warn: 1, info: 2, http: 3, verbose: 4, debug: 5, silly: 6
 //  */
-const logger = winston.createLogger({
+
+const loggerOptions: LoggerOptions = {
+  level: process.env.LOG_LEVEL || 'info',
   format: winston.format.combine(
     winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
     piiFormatter(),
     winston.format.json(),
-    ...envFormatters,
+    ...envFormatters
   ),
   transports: [new winston.transports.Console()],
-});
+};
+
+const logger = winston.createLogger(loggerOptions);
 
 export { logger };

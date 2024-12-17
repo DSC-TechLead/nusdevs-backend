@@ -5,7 +5,7 @@ import { validationResult, matchedData, param } from 'express-validator';
 
 // Example controller
 class GetProjectDataController {
-  public index = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  public index = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       // Validates the path parameters
       const paramsErrors = validationResult(req);
@@ -24,6 +24,8 @@ class GetProjectDataController {
     }
   };
 
+  // TODO: Recommendation by Pairor
+  // Can have beefier validators like a .withMessage('..') clause or even an isUUID() clause if applicable.
   public validators = [param('id').notEmpty()];
 }
 

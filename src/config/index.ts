@@ -18,6 +18,7 @@ const validateEnv = () =>
     LOG_DIR: str({ default: 'logs' }),
     ORIGIN: str({ default: '*' }),
     CREDENTIALS: bool({ default: true }),
+    SVC_TAG: str({ default: 'nusdevs-backend-api' }),
     SVC_NAME: str({ default: 'NUSdevs Backend Service API' }),
   });
 
@@ -32,6 +33,7 @@ export const {
   LOG_DIR,
   ORIGIN,
   CREDENTIALS,
+  SVC_TAG,
   SVC_NAME,
 } = validateEnv();
 

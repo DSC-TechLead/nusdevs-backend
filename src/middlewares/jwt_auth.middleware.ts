@@ -8,6 +8,8 @@ const jwtAuthMiddleware = (req: Request, _res: Response, next: NextFunction) => 
   if (token) {
     try {
       // Decode the token
+      // TODO: Recommendation by Pairor:
+      // Might be better to use jwt.verify(token, secretKey) as jwt.JwtPayload with a secret key later?
       const decodedToken = jwt.decode(token);
       if (!decodedToken) {
         return next();

@@ -13,6 +13,16 @@ class GetProjectDataRoute implements Routes {
     this.initializeRoutes();
   }
 
+  /*
+    TODO: Recommendation by Pairor
+    Could add the types:
+      (req: Request, res: Response, next: NextFunction) => {
+        this.controller.index(req, res, next).catch(next);
+  
+    just for readability, replacing this.controller.index, 
+    same logic for this.controller.validators.
+  */
+
   private initializeRoutes() {
     this.router.get(`${this.path}`, this.controller.validators, this.controller.index);
   }
