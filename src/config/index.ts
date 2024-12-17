@@ -20,6 +20,9 @@ const validateEnv = () =>
     CREDENTIALS: bool({ default: true }),
     SVC_TAG: str({ default: 'nusdevs-backend-api' }),
     SVC_NAME: str({ default: 'NUSdevs Backend Service API' }),
+    DATABASE_ARN: str(),
+    SECRET_ARN: str(),
+    DATABASE_NAME: str(),
   });
 
 export const {
@@ -35,6 +38,9 @@ export const {
   CREDENTIALS,
   SVC_TAG,
   SVC_NAME,
+  DATABASE_ARN,
+  SECRET_ARN,
+  DATABASE_NAME,
 } = validateEnv();
 
 // Let's see if we have the bandwidth to create a staging env
