@@ -1,19 +1,21 @@
 import morgan from 'morgan';
 import { maskObject } from '@utils/mask';
 import { logger } from '@utils/logger';
+import { Request, Response } from 'express';
+import { TokenIndexer } from 'morgan';
 
 const noLogPaths = ['/', '/metrics', '/ready', '/health'];
 
-morgan.token('endpoint', function (req: any) {
+morgan.token('endpoint', function (req: Request) {
   return req.route?.path;
 });
-morgan.token('query', function (req: any) {
+morgan.token('query', function (req: Request) {
   return req.query;
 });
-morgan.token('body', function (req: any) {
+morgan.token('body', function (req: Request) {
   return maskObject(req.body);
 });
-morgan.token('statusCode', function (_req: any, res: any) {
+morgan.token('statusCode', function (_req: Request, res: Response) {
   return res.statusCode;
 });
 
@@ -29,23 +31,28 @@ const httpStream = {
 
 const getHttpLogFormat = () =>
   morgan(
-    (tokens, req, res) => {
-      const path = req['route']?.path;
-      if (!path || noLogPaths.includes(path)) {
+    (tokens: TokenIndexer, req: Request, res: Response) => {
+      try {
+        const path = req.route?.path;
+        if (!path || noLogPaths.includes(path)) {
+          return;
+        }
+        return JSON.stringify({
+          method: tokens.method(req, res),
+          url: tokens.url(req, res),
+          statusCode: tokens.statusCode(req, res),
+          contentLength: tokens.res(req, res, 'content-length'),
+          responseTime: tokens['response-time'](req, res),
+          endpoint: tokens.endpoint(req, res),
+          query: tokens.query(req, res),
+          body: tokens.body(req, res),
+        });
+      } catch (error) {
+        logger.info(error);
         return;
       }
-      return JSON.stringify({
-        method: tokens.method(req, res),
-        url: tokens.url(req, res),
-        statusCode: tokens.statusCode(req, res),
-        contentLength: tokens.res(req, res, 'content-length'),
-        responseTime: tokens['response-time'](req, res),
-        endpoint: tokens.endpoint(req, res),
-        query: tokens.query(req, res),
-        body: tokens.body(req, res),
-      });
     },
-    { stream: httpStream },
+    { stream: httpStream }
   );
 
 export { getHttpLogFormat };

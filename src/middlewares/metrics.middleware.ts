@@ -1,5 +1,6 @@
 import { Counter, Registry, collectDefaultMetrics } from 'prom-client';
 import { SVC_TAG, NODE_ENV } from '@config/index';
+import { Request, Response, NextFunction } from 'express';
 
 // Create a new registry
 const metricsRegister = new Registry();
@@ -24,9 +25,13 @@ const httpRequestsTotalMetric = new Counter({
  * Middleware to increment HTTP request count metric.
  * Add this to your Express middleware stack so every incoming request increments the counter.
  */
-const metricsMiddleware = (_req, _res, next) => {
-  httpRequestsTotalMetric.inc();
-  next();
+const metricsMiddleware = (_req: Request, _res: Response, next: NextFunction) => {
+  try {
+    httpRequestsTotalMetric.inc();
+    next();
+  } catch (error) {
+    next(error);
+  }
 };
 
 export { metricsRegister, metricsMiddleware };

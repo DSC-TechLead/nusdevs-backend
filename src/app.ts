@@ -103,6 +103,8 @@ class App {
   }
 
   private initializeSwagger(): void {
+    // TODO: Recommendation by Pairor
+    // On Swagger setup, we should abstract options into another file
     const options = {
       definition: {
         openapi: '3.0.0',
