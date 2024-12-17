@@ -1,19 +1,14 @@
-import { getProject } from '@db/project';
 import { HttpException } from '@exceptions/HttpException';
-import { Project } from '@interfaces/models.interface';
-import { projectData, ProjectDataResponse } from '@models/project.model';
-interface ProjectDataApiResponse extends ProjectDataResponse {
-  project: Project;
-}
+import { ProjectData } from '@interfaces/models.interface';
 
-const getProjectData = async (id: string): Promise<ProjectDataApiResponse> => {
-  const project = await getProject(id);
+const getProjectData = async (id: string): Promise<ProjectData> => {
+  // TODO: Implement get project data from rds
+  const project = null;
   if (!project) {
     throw new HttpException(404, `Identity ${id} not found`);
   }
 
-  const data = await projectData(project.id);
-  return { project, ...data };
+  return project;
 };
 
 export { getProjectData };
