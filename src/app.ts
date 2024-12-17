@@ -1,6 +1,6 @@
 import cors from 'cors';
-import express, { Request, Response, NextFunction } from 'express';
-import { NODE_ENV, PORT, ORIGIN, SENTRY_DSN, SVC_NAME, CREDENTIALS, RELEASE_VERSION, DATABASE_ARN, SECRET_ARN, DATABASE_NAME } from '@config/index';
+import express from 'express';
+import { NODE_ENV, PORT, ORIGIN, SVC_NAME, CREDENTIALS } from '@config/index';
 import { Routes } from '@interfaces/routes.interface';
 import { logger } from '@utils/logger';
 import swaggerJSDoc from 'swagger-jsdoc';
@@ -14,14 +14,14 @@ import compression from 'compression';
 import helmet from 'helmet';
 import hpp from 'hpp';
 import { rdsQuery } from '@services/rds';
-
+import { Server } from 'http';
 
 class App {
   public app: express.Application;
   public env: string;
   public port: string | number;
-  public appInstance: any;
-  private httpLogFormat: any;
+  public appInstance: Server | null = null;
+  private httpLogFormat: express.RequestHandler;
 
   constructor(routes: Routes[]) {
     this.app = express();
@@ -41,10 +41,13 @@ class App {
 
       this.appInstance = this.app
         .listen(this.port, () => {
-          logger.info(`🚀 Starting ${SVC_NAME} in ${this.env} environment, listening on port ${this.port}`, {
-            env: this.env,
-            port: this.port,
-          });
+          logger.info(
+            `🚀 Starting ${SVC_NAME} in ${this.env} environment, listening on port ${this.port}`,
+            {
+              env: this.env,
+              port: this.port,
+            }
+          );
         })
         .on('error', (error: Error) => {
           logger.error(`Error starting the server on port ${this.port} and env ${this.env}`, {
@@ -94,7 +97,7 @@ class App {
   }
 
   private initializeRoutes(routes: Routes[]): void {
-    routes.forEach(route => {
+    routes.forEach((route) => {
       this.app.use('/', route.router);
     });
   }
@@ -134,9 +137,12 @@ class App {
       } else {
         throw new Error('Database connectivity test returned no results.');
       }
-    } catch (error: any) {
-      logger.error('Error initializing database connection:', { error: error.message });
-      // If you cannot proceed without database, it's safer to exit
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        logger.error('Error initializing database connection:', { error: error.message });
+      } else {
+        logger.error('Error initializing database connection:', { error });
+      }
       throw new Error('Database initialization failed. Terminating server startup.');
     }
   }
