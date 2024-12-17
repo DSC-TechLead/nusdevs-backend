@@ -127,23 +127,42 @@ class App {
    * but we can do a quick check to ensure that queries work.
    */
   private async initializeDatabase(): Promise<void> {
-    try {
-      logger.info('Initializing database connection...');
-      // Simple test query
-      const testQuery = 'SELECT 1 as test';
-      const result = await rdsQuery({ sql: testQuery });
-      if (result?.length) {
-        logger.info(`Successfully verified database connectivity for ${DATABASE_NAME}.`);
-      } else {
-        throw new Error('Database connectivity test returned no results.');
+    const maxRetries = 5;
+    const retryDelayMs = 2000;
+    let attempt = 0;
+
+    while (attempt < maxRetries) {
+      try {
+        logger.info(
+          `Initializing database connection... (Attempt ${attempt + 1} of ${maxRetries})`
+        );
+        // TODO: setup simple test query
+        const testQuery = 'SELECT 1 as test';
+        const result = await rdsQuery({ sql: testQuery });
+
+        if (result?.length) {
+          logger.info('Successfully verified database connectivity.');
+          return; // Exit the function on success
+        } else {
+          throw new Error('Database connectivity test returned no results.');
+        }
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          logger.error('Error initializing database connection:', { error: error.message });
+        } else {
+          logger.error('Error initializing database connection:', { error });
+        }
+
+        attempt++;
+        if (attempt < maxRetries) {
+          logger.warn(`Database initialization failed. Retrying in ${retryDelayMs}ms...`);
+          await new Promise((resolve) => setTimeout(resolve, retryDelayMs));
+        } else {
+          throw new Error(
+            'Database initialization failed after maximum retries. Terminating server startup.'
+          );
+        }
       }
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        logger.error('Error initializing database connection:', { error: error.message });
-      } else {
-        logger.error('Error initializing database connection:', { error });
-      }
-      throw new Error('Database initialization failed. Terminating server startup.');
     }
   }
 }
