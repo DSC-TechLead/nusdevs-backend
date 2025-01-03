@@ -1,11 +1,14 @@
 import { HttpException } from '@exceptions/HttpException';
 import { ProjectData } from '@interfaces/models.interface';
+import mockProjects from 'src/mock_data/projects.data';
 
 const getProjectData = async (id: string): Promise<ProjectData> => {
-  // TODO: Implement get project data from rds
-  const project = null;
+  console.log('Searching for project ID:', id);
+
+  const project = mockProjects.find((project) => project.id === id);
+
   if (!project) {
-    throw new HttpException(404, `Identity ${id} not found`);
+    throw new HttpException(404, `Project with ID ${id} not found`);
   }
 
   return project;

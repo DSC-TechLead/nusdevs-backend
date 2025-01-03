@@ -17,3 +17,9 @@ export interface UserData extends Timestampable {
   phone_number_verified?: boolean;
   name?: string;
 }
+
+export interface EventData extends Timestampable {
+  event_id: string;
+  event_name: string;
+  event_date: string;
+}
