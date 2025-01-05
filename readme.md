@@ -91,4 +91,8 @@ See `package.json` file for specific commands.
 Order to run:
 `pnpm run db:gen` -> `pnpm run db:migrate` -> `pnpm run db:seed`
 
+### Committing
+
+Run `pnpm run commit` to use the `commitlint` tool for formatting.
+
 #### Congrats! Now to run the backend:
