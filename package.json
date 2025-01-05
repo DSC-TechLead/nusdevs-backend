@@ -13,7 +13,8 @@
     "db:studio": "dotenv -f .env.development -- prisma studio --schema src/prisma/schema.prisma",
     "db:reset": "pnpm db:gen && dotenv -f .env.development -- prisma migrate reset --schema src/prisma/schema.prisma",
     "db:seed": "dotenv -f .env.development -- prisma db seed",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "commit:all": "git add . && git-cz"
   },
   "prisma": {
     "seed": "dotenv -f .env.development -- tsx src/prisma/seed.ts"
