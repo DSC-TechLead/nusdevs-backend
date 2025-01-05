@@ -7,7 +7,15 @@
     "test": "jest",
     "start": "npx tsx src/server.ts",
     "dev": "npx tsx src/server.ts",
-    "prepare": "husky"
+    "prepare": "husky",
+    "db:generate": "dotenv -f .env.development -- prisma generate --schema src/prisma/schema.prisma",
+    "db:migrate": "dotenv -f .env.development -- prisma migrate dev --schema src/prisma/schema.prisma",
+    "db:studio": "dotenv -f .env.development -- prisma studio --schema src/prisma/schema.prisma",
+    "db:reset": "pnpm db:gen && dotenv -f .env.development -- prisma migrate reset --schema src/prisma/schema.prisma",
+    "db:seed": "dotenv -f .env.development -- prisma db seed"
+  },
+  "prisma": {
+    "seed": "dotenv -f .env.development -- tsx src/prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
@@ -40,6 +48,7 @@
     "@eslint/js": "^9.17.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.10.2",
+    "dotenv-cli": "^8.0.0",
     "eslint": "^9.17.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
