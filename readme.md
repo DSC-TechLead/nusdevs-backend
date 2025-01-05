@@ -78,7 +78,7 @@ AWS_PROFILE=nusdevs-backend-api-dev
 
 #### Running Prisma Locally
 
-First run `docker compose up -d` to run the postgres container on port 5432.
+First open docker locally and do `docker compose up -d` to run the postgres container on port 5432.
 
 See `package.json` file for specific commands.
 

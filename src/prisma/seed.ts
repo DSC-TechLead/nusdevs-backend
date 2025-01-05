@@ -36,8 +36,7 @@ async function main() {
   });
 
   // Create Projects
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const project1 = await prisma.project.create({
+  await prisma.project.create({
     data: {
       event_id: event1.event_id,
       user_id: user1.user_id,
