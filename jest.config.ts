@@ -12,6 +12,8 @@ const config: Config = {
   // Stop running tests after `n` failures
   // bail: 0,
 
+  setupFilesAfterEnv: ['<rootDir>/tests/unit/setupTests.ts'],
+
   // The directory where Jest should store its cached dependency information
   // cacheDirectory: "/private/var/folders/h1/_n_bj8qj1nd9nhqqdqkdgdt40000gn/T/jest_dx",
 
@@ -90,6 +92,7 @@ const config: Config = {
     '^@routes/(.*)$': '<rootDir>/src/routes/$1',
     '^@services/(.*)$': '<rootDir>/src/services/$1',
     '^@utils/(.*)$': '<rootDir>/src/utils/$1',
+    '^@mock_data/(.*)$': '<rootDir>/src/mock_data/$1',
     '^@app$': '<rootDir>/src/app',
   },
 
@@ -101,6 +104,7 @@ const config: Config = {
 
   // An enum that specifies notification mode. Requires { notify: true }
   // notifyMode: "failure-change",
+  preset: 'ts-jest',
 
   // A preset that is used as a base for Jest's configuration
   // preset: undefined,
@@ -147,7 +151,7 @@ const config: Config = {
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-  testEnvironment: 'jest-environment-jsdom',
+  testEnvironment: 'node',
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},

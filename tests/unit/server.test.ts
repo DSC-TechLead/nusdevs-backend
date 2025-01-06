@@ -24,23 +24,16 @@ afterEach(async () => {
   await app.close();
 });
 
-// test('getServer returns an express server', () => {
-//   const server = app.getServer();
-//   expect(server).toBeDefined();
-//   expect(server).toHaveProperty('use');
-//   expect(server).toHaveProperty('listen');
-// });
+test('GET /project/:id/data returns 404 for invalid route', async () => {
+  const res = await request(app.getServer()).get('/project/invalid-id/data');
+  expect(res.status).toBe(404);
+  expect(res.body).toHaveProperty('message');
+  expect(res.body.message).toContain('Project with ID invalid-id not found');
+});
 
-// test('listen starts the server', (done) => {
-//   app.listen();
-//   setTimeout(() => {
-//     request(app.getServer()).get('/').expect(404, done); // expect 404 Not Found because no routes are configured
-//   }, 500); // wait for the server to start
-// });
-
-test('GET /project-data returns 200', (done) => {
-  app.listen();
-  setTimeout(() => {
-    request(app.getServer()).get('/project-data').expect('Content-Type', /json/).expect(200, done);
-  }, 500); // wait for the server to start
+test('GET /project/:id/data returns 200 for valid route', async () => {
+  await app.listen();
+  const res = await request(app.getServer()).get('/project/1/data');
+  expect(res.status).toBe(200);
+  expect(res.body).toHaveProperty('id', '1');
 });

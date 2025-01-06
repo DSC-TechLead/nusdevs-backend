@@ -1,6 +1,6 @@
 import { HttpException } from '@exceptions/HttpException';
 import { ProjectData } from '@interfaces/models.interface';
-import mockProjects from 'src/mock_data/projects.data';
+import mockProjects from '@mock_data/projects.data';
 
 const getProjectData = async (id: string): Promise<ProjectData> => {
   console.log('Searching for project ID:', id);

@@ -3,8 +3,17 @@ import { cleanEnv, str, port, bool } from 'envalid';
 
 config({ path: `.env.${process.env.NODE_ENV || 'local-dev'}.local` });
 
-const validateEnv = () =>
-  cleanEnv(process.env, {
+const validateEnv = () => {
+  if (process.env.NODE_ENV === 'test') {
+    console.log('Skipping environment validation in test mode');
+    process.env.CREDENTIALS = process.env.CREDENTIALS || 'true';
+    process.env.ORIGIN = process.env.ORIGIN || '*';
+    process.env.PORT = process.env.PORT || '3000';
+
+    return process.env;
+  }
+
+  return cleanEnv(process.env, {
     DB_USER: str(),
     DB_HOST: str(),
     DB_NAME: str(),
@@ -24,6 +33,7 @@ const validateEnv = () =>
     SECRET_ARN: str(),
     DATABASE_NAME: str(),
   });
+};
 
 export const {
   DB_USER,
@@ -52,3 +62,4 @@ const short_envs = {
 };
 
 export const ENV_SHORT = short_envs[NODE_ENV];
+export { validateEnv };
