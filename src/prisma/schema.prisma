@@ -1,0 +1,101 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["omitApi"] // https://www.prisma.io/docs/orm/prisma-client/queries/excluding-fields
+}
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:postgres@localhost:5432/nusdevs"
+}
+
+model User {
+  user_id        String   @id @default(uuid())
+  full_name      String
+  display_name   String
+  email          String   @unique
+  password_digest String
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+  projects       Project[]
+  forms          Form[]
+  responses      Response[]
+}
+
+model Event {
+  event_id    Int       @id @default(autoincrement())
+  title       String
+  description String
+  start_date  DateTime
+  end_date    DateTime
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  projects    Project[]
+}
+
+model Project {
+  project_id       Int       @id @default(autoincrement())
+  event_id         Int
+  user_id          String
+  title            String
+  description      String
+  status           String
+  level            String
+  tech_stack       String[]
+  timeline         String?
+  expectations     String?
+  commitment_level String?
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @updatedAt
+
+  event            Event     @relation(fields: [event_id], references: [event_id], onDelete: Cascade)
+  user             User      @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+}
+
+model ScreeningQuestion {
+  question_id    Int       @id @default(autoincrement())
+  form_id        Int
+  question_text  String
+  description    String?
+  question_type  Int
+  options        Json?
+  is_required    Boolean   @default(false)
+  validation     Json?
+  question_order Int
+
+  form           Form      @relation(fields: [form_id], references: [form_id], onDelete: Cascade)
+  answers        Answer[] // Added to resolve error on Answer.question.
+  // Error validating field `question` in model `Answer`: The relation field `question` on model `Answer` is missing an opposite relation field on the model `ScreeningQuestion`. Either run `prisma format` or add it manually.Prisma
+}
+
+model Form {
+  form_id      Int       @id @default(autoincrement())
+  title        String
+  description  String?
+  owner_id     String
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+  questions    ScreeningQuestion[]
+  responses    Response[]
+  user         User      @relation(fields: [owner_id], references: [user_id])
+}
+
+model Response {
+  response_id   Int       @id @default(autoincrement())
+  form_id       Int
+  respondent_id String
+  submitted_at  DateTime  @default(now())
+
+  form          Form      @relation(fields: [form_id], references: [form_id], onDelete: Cascade)
+  respondent    User      @relation(fields: [respondent_id], references: [user_id])
+  answers       Answer[]
+}
+
+model Answer {
+  answer_id    Int       @id @default(autoincrement())
+  response_id  Int
+  question_id  Int
+  answer_value String?
+  created_at   DateTime  @default(now())
+
+  response     Response  @relation(fields: [response_id], references: [response_id], onDelete: Cascade)
+  question     ScreeningQuestion @relation(fields: [question_id], references: [question_id], onDelete: Cascade)
+}
