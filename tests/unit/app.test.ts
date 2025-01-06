@@ -6,12 +6,12 @@ let app;
 jest.mock('@utils/logger', () => {
   return {
     logger: {
-      info: jest.fn(), // This will mock logger.info
-      error: jest.fn(), // This will mock logger.error
+      info: jest.fn(),
+      error: jest.fn(),
     },
     httpStream: {
       write: jest.fn(),
-    }, // add other exports if needed
+    },
   };
 });
 
