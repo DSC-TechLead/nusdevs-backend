@@ -63,9 +63,18 @@
 ### [GET]/events
 - Summary: Get all the posted events in a stream. 
 - Description: Fetch a list of all posted events with their details. 
+#### Response Codes
 
+- `200 OK`: Successfully retrieved all events. 
+- `500 Internal Server Error`: An error occured on the server.
 
 
 ### [GET]/events/{event_id}/data
 - Summary: Get a specific event data by its ID. 
 - Description: Fetch the details of a specific event using its unique ID. 
+
+#### Response Codes:
+- `200 OK`: Successfully retrieved the event data. 
+- `400 Bad Request`: Invalid `id` format. 
+- `404 Not Found`: Event with the given `id` does not exist.
+- `500 Internal Server Error`: An error occured on the server. 
