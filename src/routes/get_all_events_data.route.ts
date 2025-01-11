@@ -1,27 +1,16 @@
 import { Router } from 'express';
-import GetProjectDataController from '@controllers/get_project_data.controller';
+import GetAllEventsDataController from '@controllers/get_all_events_data.controller.ts';
 import { Routes } from '@interfaces/routes.interface';
 import { Request, Response, NextFunction, RequestHandler } from 'express';
-// Internal route
-//   - Not exposed by gateway
-class GetProjectDataRoute implements Routes {
-  public path = '/project/:id/data';
+
+class GetAllEventsRoute implements Routes {
+  public path = '/events';
   public router = Router();
-  public controller = new GetProjectDataController();
+  public controller = new GetAllEventsDataController();
 
   constructor() {
     this.initializeRoutes();
   }
-
-  /*
-    TODO: Recommendation by Pairor
-    Could add the types:
-      (req: Request, res: Response, next: NextFunction) => {
-        this.controller.index(req, res, next).catch(next);
-  
-    just for readability, replacing this.controller.index, 
-    same logic for this.controller.validators.
-  */
 
   private initializeRoutes() {
     this.router.get(this.path, this.controller.validators, this.wrapAsync(this.controller.index));
@@ -36,4 +25,4 @@ class GetProjectDataRoute implements Routes {
   }
 }
 
-export default GetProjectDataRoute;
+export default GetAllEventsRoute;

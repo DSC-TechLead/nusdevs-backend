@@ -13,7 +13,7 @@ import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import helmet from 'helmet';
 import hpp from 'hpp';
-import { rdsQuery } from '@services/rds';
+// import { rdsQuery } from '@services/rds';
 import { Server } from 'http';
 
 class App {
@@ -37,7 +37,7 @@ class App {
 
   public async listen(): Promise<void> {
     try {
-      await this.initializeDatabase();
+      // await this.initializeDatabase();
 
       this.appInstance = this.app
         .listen(this.port, () => {
@@ -128,45 +128,45 @@ class App {
    * For RDS Data API, we typically don't maintain a persistent connection,
    * but we can do a quick check to ensure that queries work.
    */
-  private async initializeDatabase(): Promise<void> {
-    const maxRetries = 5;
-    const retryDelayMs = 2000;
-    let attempt = 0;
+  // private async initializeDatabase(): Promise<void> {
+  //   const maxRetries = 5;
+  //   const retryDelayMs = 2000;
+  //   let attempt = 0;
 
-    while (attempt < maxRetries) {
-      try {
-        logger.info(
-          `Initializing database connection... (Attempt ${attempt + 1} of ${maxRetries})`
-        );
-        // TODO: setup simple test query
-        const testQuery = 'SELECT 1 as test';
-        const result = await rdsQuery({ sql: testQuery });
+  //   while (attempt < maxRetries) {
+  //     try {
+  //       logger.info(
+  //         `Initializing database connection... (Attempt ${attempt + 1} of ${maxRetries})`
+  //       );
+  //       // TODO: setup simple test query
+  //       const testQuery = 'SELECT 1 as test';
+  //       const result = await rdsQuery({ sql: testQuery });
 
-        if (result?.length) {
-          logger.info('Successfully verified database connectivity.');
-          return; // Exit the function on success
-        } else {
-          throw new Error('Database connectivity test returned no results.');
-        }
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          logger.error('Error initializing database connection:', { error: error.message });
-        } else {
-          logger.error('Error initializing database connection:', { error });
-        }
+  //       if (result?.length) {
+  //         logger.info('Successfully verified database connectivity.');
+  //         return; // Exit the function on success
+  //       } else {
+  //         throw new Error('Database connectivity test returned no results.');
+  //       }
+  //     } catch (error: unknown) {
+  //       if (error instanceof Error) {
+  //         logger.error('Error initializing database connection:', { error: error.message });
+  //       } else {
+  //         logger.error('Error initializing database connection:', { error });
+  //       }
 
-        attempt++;
-        if (attempt < maxRetries) {
-          logger.warn(`Database initialization failed. Retrying in ${retryDelayMs}ms...`);
-          await new Promise((resolve) => setTimeout(resolve, retryDelayMs));
-        } else {
-          throw new Error(
-            'Database initialization failed after maximum retries. Terminating server startup.'
-          );
-        }
-      }
-    }
-  }
+  //       attempt++;
+  //       if (attempt < maxRetries) {
+  //         logger.warn(`Database initialization failed. Retrying in ${retryDelayMs}ms...`);
+  //         await new Promise((resolve) => setTimeout(resolve, retryDelayMs));
+  //       } else {
+  //         throw new Error(
+  //           'Database initialization failed after maximum retries. Terminating server startup.'
+  //         );
+  //       }
+  //     }
+  //   }
+  // }
 }
 
 export default App;

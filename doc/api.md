@@ -14,11 +14,9 @@
 
 ### [GET]/projects
 
-- Summary  
-Get all the posted projects in a stream.
+- Summary: Get all the posted projects in a stream.
 
-- Description  
-Get all the posted projects in a stream.
+- Description: Fetch a list of all posted projects with their details.
 
 #### RequestBody
 
@@ -34,19 +32,40 @@ Get all the posted projects in a stream.
 }
 ```
 
-- 400 Bad Request
+#### Response Codes
 
-- 404 Event not found
-
-- 500 Server error
+- `200 OK`: Successfully retrieved all projects. 
+- `500 Internal Server Error`: An error occured on the server.
 
 
 ### [GET]/projects/{project_id}/data
-
+- Summary: Get specific project data by its ID.
+ 
+- Description: Fetch the details of a specific project using its unique `id`
+- Path Parameters: `id `
+- Response Example:
+```ts
+{
+  "id": "1",
+  "company_id": "1001",
+  "identity_id": "2001",
+  "created_at": "2025-01-01T12:00:00Z",
+  "updated_at": "2025-01-02T12:00:00Z"
+}
+```
+#### Response Codes:
+- `200 OK`: Successfully retrieved the project data. 
+- `400 Bad Request`: Invalid `id` format. 
+- `404 Not Found`: Project with the given `id` does not exist.
+- `500 Internal Server Error`: An error occured on the server. 
 
 
 ### [GET]/events
+- Summary: Get all the posted events in a stream. 
+- Description: Fetch a list of all posted events with their details. 
 
 
 
 ### [GET]/events/{event_id}/data
+- Summary: Get a specific event data by its ID. 
+- Description: Fetch the details of a specific event using its unique ID. 

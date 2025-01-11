@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
-import { getProjectData } from '@api/get_project_data.api';
+import { getEventData } from '@api/get_event_data.api';
 import { logger } from '@utils/logger';
 import { validationResult, param } from 'express-validator';
 
-class GetProjectDataController {
+class GetEventDataController {
   /**
-   * Controller method for getting project data by ID
+   * Controller method for getting event data by ID
    */
   public index = async (
     req: Request,
@@ -22,23 +22,21 @@ class GetProjectDataController {
 
       const { id } = req.params;
 
-      const project = await getProjectData(id);
+      const event = await getEventData(id);
 
-      res.status(200).json(project);
+      res.status(200).json(event);
     } catch (error) {
       next(error);
     }
   };
 
-  // TODO: Recommendation by Pairor
-  // Can have beefier validators like a .withMessage('..') clause or even an isUUID() clause if applicable.
   public validators = [
     param('id')
       .notEmpty()
-      .withMessage('Project ID is required')
+      .withMessage('Event ID is required')
       .matches(/^[a-zA-Z0-9-]+$/)
-      .withMessage('Project ID must be a valid UUID'),
+      .withMessage('Event ID must be a valid UUID'),
   ];
 }
 
-export default GetProjectDataController;
+export default GetEventDataController;
