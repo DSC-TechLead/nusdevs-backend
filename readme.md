@@ -32,6 +32,7 @@ If you receive an during the `initdb /usr/local/var/postgres` step such as:
 `initdb: error: could not create directory "/usr/local/var": Permission denied`
 
 Try:
+
 ```
 sudo mkdir /usr/local/var/postgres
 sudo chmod 775 /usr/local/var/postgres
@@ -41,7 +42,9 @@ sudo chown $(whoami) /usr/local/var/postgres
 and then run `initdb /usr/local/var/postgres` again.
 
 Insert setup for seed data herej
+
 ```
+
 ```
 
 ##### 2) Install & configure AWS CLI
@@ -51,12 +54,11 @@ brew install awscli
 ```
 
 Ask whoever's the techlead to create your AWS identity account. Upon setting up your
-AWS identity select BackendDevelopers, and then Management Console. Once inside 
-the AWS Console, choose SecretsManager. Please double check you are in correct 
+AWS identity select BackendDevelopers, and then Management Console. Once inside
+the AWS Console, choose SecretsManager. Please double check you are in correct
 region (on the top right corner). Search for `<insert path/to/secret here>`.
 Click on the item, and choose `Retrieve Secret Value`.
 You will use the aws access key value and secret access key value below.
-
 
 use the following example to configure AWS CLI.
 
@@ -69,9 +71,28 @@ Default output format [None]: json
 ```
 
 and then modify `.env.local` and `.env.test.local` in project root, add line:
+
 ```
 AWS_PROFILE=nusdevs-backend-api-dev
 ```
 
-#### Congrats! Now to run the backend:
+#### Running Prisma Locally
 
+First open docker locally and do `docker compose up -d` to run the postgres container on port 5432.
+
+See `package.json` file for specific commands.
+
+- `pnpm run db:gen` generates the Prisma client in `/node_modules`.
+- `pnpm run db:migrate` applies pending migrations to the database (adding new tables data).
+- `pnpm run db:studio` opens Prisma Studio, a GUI for managing your database.
+- `pnpm run db:reset` resets the database by applying all migrations from scratch (deleting all row data).
+- `pnpm run db:seed` runs the seed script to populate the database with initial data.
+
+Order to run:
+`pnpm run db:gen` -> `pnpm run db:migrate` -> `pnpm run db:seed`
+
+### Committing
+
+Run `pnpm run commit` to use the `commitlint` tool for formatting.
+
+#### Congrats! Now to run the backend:
