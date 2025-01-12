@@ -65,6 +65,7 @@
 - Description: Fetch a list of all posted events with their details. 
 #### Response Codes
 
+
 - `200 OK`: Successfully retrieved all events. 
 - `500 Internal Server Error`: An error occured on the server.
 
@@ -78,3 +79,4 @@
 - `400 Bad Request`: Invalid `id` format. 
 - `404 Not Found`: Event with the given `id` does not exist.
 - `500 Internal Server Error`: An error occured on the server. 
+
