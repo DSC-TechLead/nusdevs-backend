@@ -26,10 +26,13 @@ class GetProjectDataController {
 
       res.status(200).json(project);
     } catch (error) {
-      next(error);
+      if (error instanceof Error) {
+        res.status(404).json({ message: error.message });
+      } else {
+        next(error);
+      }
     }
   };
-
   // TODO: Recommendation by Pairor
   // Can have beefier validators like a .withMessage('..') clause or even an isUUID() clause if applicable.
   public validators = [

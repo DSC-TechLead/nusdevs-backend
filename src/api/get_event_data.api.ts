@@ -1,6 +1,6 @@
 import { HttpException } from '@exceptions/HttpException';
 import { EventData } from '@interfaces/models.interface';
-import mockEvents from 'src/mock_data/events.data';
+import mockEvents from '@mock_data/events.data';
 
 const getEventData = async (id: string): Promise<EventData> => {
   console.log('Searching for event ID:', id);

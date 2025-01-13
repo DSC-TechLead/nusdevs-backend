@@ -11,6 +11,7 @@
       "@middlewares/*": ["src/middlewares/*"],
       "@models/*": ["src/models/*"],
       "@routes/*": ["src/routes/*"],
+      "@mock_data/*": ["src/mock_data/*"],
       "@services/*": ["src/services/*"],
       "@utils/*": ["src/utils/*"],
       "@app": ["src/app"]

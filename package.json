@@ -4,7 +4,7 @@
   "main": "src/server.ts",
   "type": "module",
   "scripts": {
-    "test": "jest",
+    "test": "NODE_ENV=test jest",
     "start": "npx tsx src/server.ts",
     "dev": "npx tsx src/server.ts",
     "prepare": "husky",
@@ -67,6 +67,8 @@
     "@types/swagger-ui-express": "^4.1.7",
     "commitizen": "^4.3.1",
     "dotenv-cli": "^8.0.0",
+    "@types/supertest": "^6.0.2",
+    "@types/swagger-ui-express": "^4.1.7",
     "eslint": "^9.17.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
